@@ -16,6 +16,6 @@ def _pattern_ ():
 #beginmodule
 if __name__ == "__main__":
     _pattern_ ()
-#endif
+#endifpwd
 
 #endmodule
