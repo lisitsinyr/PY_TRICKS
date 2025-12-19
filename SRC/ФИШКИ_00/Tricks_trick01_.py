@@ -1,4 +1,29 @@
-﻿from pathlib import Path
+﻿# -*- coding: UTF-8 -*-
+__annotations__ = """
+annotations:
+************
+Tricks_trick01_.py
+"""
+__doc__ = """
+doc:
+************
+Tricks_trick01_.py
+"""
+"""
+VENV:
+    D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages
+"""
+#------------------------------------------
+# БИБЛИОТЕКИ python
+#------------------------------------------
+import sys
+# appending a path
+sys.path.append('D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages')
+from pathlib import Path
+
+#------------------------------------------
+# БИБЛИОТЕКИ сторонние
+#------------------------------------------
 
 #------------------------------------------
 # Tricks_trick01 ():
@@ -281,6 +306,9 @@ def Tricks_trick01 ():
     #
     # 30. Использование numpy и pandas для работы с данными
     #
+
+    # import numpy as np @ file:///D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages
+    # import pandas as pd @ file:///D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages
     import numpy as np
     import pandas as pd
 
@@ -304,6 +332,8 @@ def Tricks_trick01 ():
 #------------------------------------------
 #beginmodule
 if __name__ == "__main__":
+    print (__annotations__)
+    print (__doc__)
     Tricks_trick01 ()
 #endif
 

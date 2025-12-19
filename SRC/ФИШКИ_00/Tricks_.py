@@ -1,20 +1,25 @@
-"""Tricks_.py"""
 # -*- coding: UTF-8 -*-
 __annotations__ = """
- =======================================================
- Copyright (c) 2022-2025
- Author:
-     Lisitsin Y.R.
- Project:
-     TRICKS_PY
- Module:
-     Tricks_.py
- =======================================================
+annotations:
+************
+Tricks_.py
 """
-
+__doc__ = """
+doc:
+************
+Tricks_.py
+"""
+"""
+VENV:
+    D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages
+"""
 #------------------------------------------
 # БИБЛИОТЕКИ python
 #------------------------------------------
+import sys
+# appending a path
+sys.path.append('D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages')
+from pathlib import Path
 
 #------------------------------------------
 # БИБЛИОТЕКИ сторонние
@@ -29,7 +34,6 @@ def Tricks_ ():
     print ('#-----------------------------')
     print ('#', Tricks_.__name__)
     print ('#-----------------------------')
-
 
 #endfunction
 
@@ -47,6 +51,8 @@ def main ():
 #------------------------------------------
 #beginmodule
 if __name__ == "__main__":
+    print (__annotations__)
+    print (__doc__)
     main()
 #endif
 
