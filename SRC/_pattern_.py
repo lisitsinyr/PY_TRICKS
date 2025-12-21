@@ -10,15 +10,18 @@ doc:
 _Pattern_.py
 """
 """
-VENV:
+LIB:
     D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages
 """
+LIB = r'D:\PROJECTS_LYR\CHECK_LIST\DESKTOP\Python\VENV\P314\Lib\site-packages'
+
 #------------------------------------------
 # БИБЛИОТЕКИ python
 #------------------------------------------
 import sys
+
 # appending a path
-sys.path.append('D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages')
+sys.path.append(LIB)
 from pathlib import Path
 
 #------------------------------------------

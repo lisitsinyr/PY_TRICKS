@@ -2,12 +2,12 @@
 __annotations__ = """
 annotations:
 ************
-Tricks_trick01_.py
+Tricks_trick01.py
 """
 __doc__ = """
 doc:
 ************
-Tricks_trick01_.py
+Tricks_trick01.py
 """
 """
 VENV:
@@ -16,14 +16,53 @@ VENV:
 #------------------------------------------
 # БИБЛИОТЕКИ python
 #------------------------------------------
+import importlib.util
 import sys
+
+LIB = r'D:\PROJECTS_LYR\CHECK_LIST\DESKTOP\Python\VENV\P314\Lib\site-packages'
 # appending a path
-sys.path.append('D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages')
+sys.path.append(LIB)
 from pathlib import Path
 
 #------------------------------------------
 # БИБЛИОТЕКИ сторонние
 #------------------------------------------
+
+def import_from_path(module_name, file_path):
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+def import_module(name, package=None):
+    """An approximate implementation of import."""
+    absolute_name = importlib.util.resolve_name(name, package)
+    try:
+        return sys.modules[absolute_name]
+    except KeyError:
+        pass
+
+    path = None
+    if '.' in absolute_name:
+        parent_name, _, child_name = absolute_name.rpartition('.')
+        parent_module = import_module(parent_name)
+        path = parent_module.__spec__.submodule_search_locations
+    for finder in sys.meta_path:
+        spec = finder.find_spec(absolute_name, path)
+        if spec is not None:
+            break
+    else:
+        msg = f'No module named {absolute_name!r}'
+        raise ModuleNotFoundError(msg, name=absolute_name)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[absolute_name] = module
+    spec.loader.exec_module(module)
+    if path is not None:
+        setattr(parent_module, child_name, module)
+    return module
+
+
 
 #------------------------------------------
 # Tricks_trick01 ():
@@ -303,20 +342,24 @@ def Tricks_trick01 ():
     # Inside the context
     # Exiting the context
     # Преимущества: Позволяет создавать пользовательские контекстные менеджеры, улучшая управление ресурсами.
+
     #
     # 30. Использование numpy и pandas для работы с данными
     #
 
-    # import numpy as np @ file:///D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages
-    # import pandas as pd @ file:///D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages
-    import numpy as np
-    import pandas as pd
-
     # Пример с numpy
+
+    file_path = LIB+r'\numpy\__init__.py'
+    # print (file_path)
+    module_name = 'numpy'
+    # print (module_name)
+    # Similar outcome as `import numpy`.
+    np = import_from_path(module_name, file_path)
     array = np.array([1, 2, 3, 4])
     print(array * 2)  # [2 4 6 8]
 
     # Пример с pandas
+    import pandas as pd
     data = {'Name': ['Alice', 'Bob'], 'Age': [30, 25]}
     df = pd.DataFrame(data)
     print(df)

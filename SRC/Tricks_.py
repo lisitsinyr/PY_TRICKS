@@ -1,24 +1,27 @@
-# -*- coding: UTF-8 -*-
+﻿# -*- coding: UTF-8 -*-
 __annotations__ = """
 annotations:
 ************
-Tricks_.py
+_Pattern_.py
 """
 __doc__ = """
 doc:
 ************
-Tricks_.py
+_Pattern_.py
 """
 """
-VENV:
+LIB:
     D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages
 """
+LIB = r'D:\PROJECTS_LYR\CHECK_LIST\DESKTOP\Python\VENV\P314\Lib\site-packages'
+
 #------------------------------------------
 # БИБЛИОТЕКИ python
 #------------------------------------------
 import sys
+
 # appending a path
-sys.path.append('D:/PROJECTS_LYR/CHECK_LIST/DESKTOP/Python/VENV/P314/Lib/site-packages')
+sys.path.append(LIB)
 from pathlib import Path
 
 #------------------------------------------
@@ -26,24 +29,15 @@ from pathlib import Path
 #------------------------------------------
 
 #------------------------------------------
-# Tricks_ ():
+# _Pattern_ ():
 #------------------------------------------
-def Tricks_ ():
-    """Tricks_"""
+def _Pattern_ ():
+    """_pattern_"""
 #beginfunction
-    print ('#-----------------------------')
-    print ('#', Tricks_.__name__)
-    print ('#-----------------------------')
+    print (f'#-----------------------------')
+    print (f'# {_Pattern_.__name__}')
+    print (f'#-----------------------------')
 
-#endfunction
-
-#------------------------------------------
-# main ():
-#------------------------------------------
-def main ():
-    """main"""
-#beginfunction
-    Tricks_ ()
 #endfunction
 
 #------------------------------------------
@@ -53,7 +47,7 @@ def main ():
 if __name__ == "__main__":
     print (__annotations__)
     print (__doc__)
-    main()
+    _Pattern_ ()
 #endif
 
 #endmodule
