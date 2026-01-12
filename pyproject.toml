@@ -225,4 +225,6 @@ mypkg = [".gitattributes"]
 members = [
     "src/BAT/UV",
     "src/BAT/UV",
+    "SRC/__00. ENVIRONMENT. ПАКЕТНЫЙ МЕНЕДЖЕР/__UV/.INFO/[docs.astral.sh]/4.Concepts/01.06/example",
+    "SRC/__00. ENVIRONMENT. ПАКЕТНЫЙ МЕНЕДЖЕР/__UV/.INFO/[docs.astral.sh]/5.Reference",
 ]
