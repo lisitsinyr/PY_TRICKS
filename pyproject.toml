@@ -30,6 +30,20 @@
 # requires = ["pdm-backend >= 2.4.0"]
 # build-backend = "pdm.backend"
 # --------------------------------------------
+# mesonpy
+# --------------------------------------------
+# requires = [
+#    "meson-python>=0.13.1",
+#    "meson>=1.2.1,<2",
+#    "wheel",
+#    "Cython<4.0.0a0",  # Note: sync with setup.py, environment.yml and asv.conf.json
+#    # Force numpy higher than 2.0rc1, so that built wheels are compatible
+#    # with both numpy 1 and 2
+#    "numpy>=2.0.0rc1",
+#    "versioneer[toml]"
+#  ]
+# build-backend = "mesonpy"
+# --------------------------------------------
 # setuptools
 # --------------------------------------------
 # A list of packages that are needed to build your package:
@@ -49,19 +63,72 @@ build-backend = "uv_build"
 
 #### ++name
 
+# The name of the project
 # https://packaging.python.org/specifications/core-metadata/#name
 # Default value: ""
 # Type: str
-name = ""
+name = "TRICKS"
 # Example usage:
 # name = "TRICKS"
 
+#### ++version
+
+# The version of the project
+# https://packaging.python.org/en/latest/specifications/version-specifiers/#
+# Default value: "[N!]N(.N)*[{a|b|rc}N][.postN][.devN]"
+# Type: str
+version = "0.1.0"
+# Example usage:
+# version = "0.0.0"
+
+#### ++dynamic
+
+# Specifies which keys listed by this PEP were intentionally unspecified so another tool can/will provide such metadata dynamically
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-dynamic
+# Default value: []
+# Type: array of str
+# dynamic = ["version",]
+# Example usage:
+# dynamic = ["version",]
+
+#### ++description
+
+# The summary description of the project in one line
+# https://packaging.python.org/en/latest/specifications/core-metadata/#description-optional
+# Default value: ""
+# Type: str
+description = "TRICKS"
+# Example usage:
+# description = "TRICKS"
+
+#### ++readme
+
+# The full description of the project (i.e. the README)
+# Default value: {}
+# Type: str or table
+# readme = "README.md"
+# Example usage:
+# readme = {file = "README.txt", content-type = "text/markdown"}
+# readme = {file = "README.txt", content-type = "text/x-rst"}
+
+#### ++requires-python
+
+# The Python version requirements of the project
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-requires-python
+# Default value: ""
+# Type: str
+requires-python = ">=3.13"
+# Example usage:
+# requires-python = ">=3.13"
+
 #### ++authors
 
+# The people or organizations considered to be the “authors” of the project.
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-author
 # Default value: []
 # Type: Array of inline tables with string keys and values
 authors = [
-  { name="lisitsinyr", email="lisitsinyr@gmail.com" },
+    { name="lisitsinyr", email="lisitsinyr@gmail.com" },
 ]
 # Example usage:
 # authors = [
@@ -71,14 +138,43 @@ authors = [
 #   {email = "different.person@example.com"},
 # ]
 
+#### ++maintainers
+
+# A string containing the maintainer’s name at a minimum; additional contact information may be provided
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-maintainer
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-maintainer-email
+# Default value: []
+# Type: str
+maintainers = []
+# Example usage:
+# maintainers = [
+#   {name = "Brett Cannon", email = "brett@example.com"}
+# ]
+
+#### ++keywords
+
+# The keywords for the project
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-keywords
+# Default value: []
+# Type: array of str
+keywords = []
+# Example usage:
+# keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
+
 #### ++classifiers
 
-# Classifiers help users find your project by categorizing it.
-# For a list of valid classifiers, see https://pypi.org/classifiers/
+# Trove classifiers which apply to the project
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-classifier
 # Default value: []
 # Type: array of str
 classifiers = [
+    # How mature is this project
+    "Development Status :: 3 - Alpha",
+    # Pick your license as you wish
+    "License :: OSI Approved :: MIT License",
+    # Specify the Python versions you support here
     "Programming Language :: Python :: 3.13",
+    #
     "Operating System :: OS Independent",
 ]
 # Example usage:
@@ -86,9 +182,9 @@ classifiers = [
 # For a list of valid classifiers, see https://pypi.org/classifiers/
 #classifiers = [
 #  # How mature is this project? Common values are
-#  #   3 - Alpha
-#  #   4 - Beta
-#  #   5 - Production/Stable
+#  # 3 - Alpha
+#  # 4 - Beta
+#  # 5 - Production/Stable
 #  "Development Status :: 3 - Alpha",
 #
 #  # Indicate who your project is intended for
@@ -98,9 +194,7 @@ classifiers = [
 #  # Pick your license as you wish
 #  "License :: OSI Approved :: MIT License",
 #
-#  # Specify the Python versions you support here. In particular, ensure
-#  # that you indicate you support Python 3. These classifiers are *not*
-#  # checked by "pip install". See instead "requires-python" key in this file.
+#  # Specify the Python versions you support here.
 #  "Programming Language :: Python :: 3",
 #  "Programming Language :: Python :: 3.9",
 #  "Programming Language :: Python :: 3.10",
@@ -112,14 +206,8 @@ classifiers = [
 
 #### ++dependencies
 
-# This field lists other packages that your project depends on to run.
-# Any package you put here will be installed by pip when your project is
-# installed, so they must be valid existing projects.
+# The (optional) dependencies of the project.
 # https://packaging.python.org/en/latest/specifications/dependency-specifiers/#
-
-# For an analysis of this field vs pip's requirements files see:
-# https://packaging.python.org/discussions/install-requires-vs-requirements/
-
 # Default value: []
 # Type: array of str
 dependencies = [
@@ -145,134 +233,63 @@ dependencies = [
 #     "lyrpy>=2025.0.9",
 # ]
 
-#### ++description
+#### ++import-names
 
-# This is a one-line description or tagline of what your project does. This
-# corresponds to the "Summary" metadata field:
-# https://packaging.python.org/specifications/core-metadata/#summary
-# Default value: ""
-# Type: str
-description = "lyrpy"
-# Example usage:
-# description = "test"
-
-#### +import-names
-
+# An array of strings specifying the import names that the project exclusively provides when installed.
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-import-name
 # Default value: []
 # Type: array of str
 import-names = []
 # Example usage:
 # import-names = ["mypackage", "_private_module ; private"]
 
-#### +import-namespaces
+#### ++import-namespaces
 
+# An array of strings specifying the import names that the project provides when installed, but not exclusively
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-import-namespace
 # Default value: ""
 # Type: str
-import-namespaces = ""
+# import-namespaces = "TRICKS"
 # Example usage:
-# import-namespaces = "test"
-
-#### ++keywords
-
-# Default value: []
-# Type: array of str
-keywords = ["sample", "setuptools", "development"]
-# Example usage:
-# keywords = ["test", ]
-# keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
-
-#### ++license
-
-# This is either text indicating the license for the distribution, or a file
-# that contains the license.
-# https://packaging.python.org/en/latest/specifications/core-metadata/#license
-# Default value: ""
-# Type: str
-license = "MIT"
-# Example usage:
-# license = "test"
-#     License: This software may only be obtained by sending the
-#         author a postcard, and then the user promises not
-#         to redistribute it.
-#     License: GPL version 3, excluding DRM provisions
-# license = "GPL-3.0-or-later"
-# or
-# license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
-
-#### ++license-files
-
-# Default value: []
-# Type: array of str
-license-files = ["LICEN[CS]E*", "vendored/licenses/*.txt", "AUTHORS.md"]
-# Example usage:
-# license-files = ["test", ]
-
-#### ++maintainers
-
-# This should be your name or the names of the organization who currently
-# maintains the project, and a valid email address corresponding to the name
-# listed.
-# Default value: []
-# Type: str
-maintainers = []
-# Example usage:
-# maintainers = [
-#   {name = "Brett Cannon", email = "brett@example.com"}
-# ]
-
-#### ++readme
-
-# This field corresponds to the "Description" metadata field:
-# https://packaging.python.org/specifications/core-metadata/#description-optional
-# Default value: []
-# Type: str or table
-readme = "README.md"
-# Example usage:
-# readme = ["test", ]
-# readme = {file = "README.txt", content-type = "text/markdown"}
-# or
-# readme = {file = "README.txt", content-type = "text/x-rst"}
-
-#### ++requires-python
-
-# Specify which Python versions you support. In contrast to the
-# 'Programming Language' classifiers in this file, 'pip install' will check this
-# and refuse to install the project if the version does not match. See
-# https://packaging.python.org/guides/distributing-packages-using-setuptools/#python-requires
-
-# Default value: ""
-# Type: str
-requires-python = ">=3.13"
-# Example usage:
-# requires-python = ">=3.13"
-
-#### ++version
-
-# https://packaging.python.org/en/latest/specifications/version-specifiers/#
-# Default value: "[N!]N(.N)*[{a|b|rc}N][.postN][.devN]"
-# Type: str
-version = "0.0.0"
-# Example usage:
-# version = "0.0.0"
-
-#### ++dynamic
-
-# Default value: []
-# Type: array of str
-dynamic = []
-# Example usage:
-# dynamic = ["version",]
+# import-namespaces = "TRICKS"
 
 #### ++urls
 
 # (Deprecated: [project.urls])
 # Default value: []
 # Type: table with keys and values of strings
-#urls = []
+# urls = []
 # Example usage:
 # urls = []
 
-#### ++project.urls
+#### ++license
+
+# Text string that is a valid SPDX license expression, as specified in License Expression
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-license-expression
+# Default value: ""
+# Type: str
+license = "MIT"
+# license = {file = 'LICENSE'}
+# Example usage:
+# license = "MIT"
+# license = "BSD-3-Clause"
+# license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
+# license = "MIT OR GPL-2.0-or-later OR (FSFUL AND BSD-2-Clause)"
+# license = "GPL-3.0-only WITH Classpath-Exception-2.0 OR BSD-3-Clause"
+# license = "LicenseRef-Special-License OR CC0-1.0 OR Unlicense"
+# license = "LicenseRef-Proprietary"
+
+#### ++license-files
+
+# Each entry is a string representation of the path of a license-related file
+# https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-license-file
+# Default value: []
+# Type: array of str
+license-files = ["LICEN[CS]E*", ]
+# Example usage:
+# license-files = ["LICENSE", "AUTHORS", "LICENSE.txt", "licenses/LICENSE.MIT", "licenses/LICENSE.CC0",
+#   "vendored/licenses/*.txt", "AUTHORS.md"
+# ]
 
 [project.urls]
 
@@ -289,28 +306,26 @@ dynamic = []
 # maintainers, and where to support the project financially. The key is
 # what's used to render the link text on PyPI.
 
-# Некоторые возможные поля таблицы:
-# Homepage — домашняя страница проекта, часто ссылка на GitHub или GitLab.
-# Repository — репозиторий исходного кода, не используется, если homepage — это сам репозиторий.
-# Changelog — журнал изменений, полезный для постоянных пользователей проекта.
-# Docs — любые длинные документы, документация.
-# Bugs — баги, проблемы, запросы функций.
-# Download — ссылка для загрузки, полезна, если есть бинарное скачивание.
-# Sponsor — запросы финансирования, спонсорская информация.
-# Discussion Areas — площадки для обсуждений, например, Mastodon, Twitter, Slack, Reddit и Discord.
-
+# Homepage - домашняя страница проекта, часто ссылка на GitHub или GitLab.
 Homepage = "https://github.com/pypa/sampleproject"
+# Repository - репозиторий исходного кода, не используется, если homepage - это сам репозиторий.
 Repository = ""
+# Changelog - журнал изменений, полезный для постоянных пользователей проекта.
 Changelog = ""
+# Docs - любые длинные документы, документация.
 Documentation = ""
+# Bugs - баги, проблемы, запросы функций.
 "Bug Reports" = "https://github.com/pypa/sampleproject/issues"
+# Download - ссылка для загрузки, полезна, если есть бинарное скачивание.
 Download = ""
+# Sponsor - запросы финансирования, спонсорская информация.
 Sponsor = ""
 "Discussion Areas" = ""
 Issues = "https://github.com/pypa/sampleproject/issues"
 Funding = "https://donate.pypi.org"
-"Say Thanks!" = "http://saythanks.io/to/example"
+"Say Thanks!" = "https://saythanks.io/to/example"
 Source = "https://github.com/pypa/sampleproject/"
+# Discussion Areas - площадки для обсуждений, например, Mastodon, Twitter, Slack, Reddit и Discord.
 
 #### ++optional-dependencies
 
@@ -318,14 +333,25 @@ Source = "https://github.com/pypa/sampleproject/"
 
 # Default value: []
 # Type: []
-optional-dependencies = []
-gui = ["PyQt5"]
-cli = [
-  "rich",
-  "click",
-]
+# test = ['hypothesis>=6.116.0', 'pytest>=8.3.4', 'pytest-xdist>=3.6.1']
+# excel = ['odfpy>=1.4.1', 'openpyxl>=3.1.5', 'python-calamine>=0.3.0', 'pyxlsb>=1.0.10', 'xlrd>=2.0.1', 'xlsxwriter>=3.2.0']
+# mysql = ['SQLAlchemy>=2.0.36', 'pymysql>=1.1.1']
+# html = ['beautifulsoup4>=4.12.3', 'html5lib>=1.1', 'lxml>=5.3.0']
+# xml = ['lxml>=5.3.0']
+# clipboard = ['PyQt5>=5.15.9', 'qtpy>=2.4.2']
+# timezone = ['pytz>=2024.2']
+# all = [
+#     'pymysql>=1.1.1',
+#     'pytest>=8.3.4',
+#     'pytest-xdist>=3.6.1',
+# ]
 # Example usage:
 # optional-dependencies = []
+# gui = ["PyQt5"]
+# cli = [
+#   "rich",
+#   "click",
+# ]
 
 #### ++scripts
 
@@ -335,6 +361,7 @@ cli = [
 # which executes the function `main` from this package when invoked.
 # Default value: ""
 # Type: str
+# sample = "sample:main"
 # Example usage:
 # spam-cli = "spam:main_cli"
 # sample = "sample:main"
@@ -359,12 +386,12 @@ cli = [
 # entry-points = "test"
 
 [project.entry-points."spam.magical"]
-tomatoes = "spam:main_tomatoes"
+# tomatoes = "spam:main_tomatoes"
 
 [dependency-groups]
-dev = [
-    "lyrpy",
-]
+# dev = [
+#     "lyrpy",
+# ]
 # group-a = ["foo"]
 # group-b = ["foo>1.0"]
 # group-c = ["foo<1.0"]
@@ -399,7 +426,7 @@ default-excludes = true
 
 # Default value: None
 # Type: str | list[str]
-module-name =  ""
+# module-name = ""
 # Example usage:
 # module-name = "sklearn"
 
@@ -459,10 +486,10 @@ exclude = []
 # Default value: []
 # Type: list[str]
 members = [
-    "src/BAT/UV",
-    "src/BAT/UV",
-    "SRC/__00. ENVIRONMENT. ПАКЕТНЫЙ МЕНЕДЖЕР/__UV/.INFO/[docs.astral.sh]/4.Concepts/01.06/example",
-    "SRC/__00. ENVIRONMENT. ПАКЕТНЫЙ МЕНЕДЖЕР/__UV/.INFO/[docs.astral.sh]/5.Reference",
+#    "src/BAT/UV",
+#    "src/BAT/UV",
+#    "SRC/__00. ENVIRONMENT. ПАКЕТНЫЙ МЕНЕДЖЕР/__UV/.INFO/[docs.astral.sh]/4.Concepts/01.06/example",
+#    "SRC/__00. ENVIRONMENT. ПАКЕТНЫЙ МЕНЕДЖЕР/__UV/.INFO/[docs.astral.sh]/5.Reference",
 ]
 # Example usage:
 # members = ["member1", "path/to/member2", "libs/*"]
@@ -484,7 +511,7 @@ members = [
 
 # Default value: []
 # Type: dict
-my-group = []
+# my-group = []
 # Example usage:
 # my-group = {requires-python = ">=3.12"}
 
@@ -494,7 +521,7 @@ my-group = []
 
 # Default value: []
 # Type: list[str]
-build-constraint-dependencies = []
+# build-constraint-dependencies = []
 # Example usage:
 # Ensure that the setuptools v60.0.0 is used whenever a package has a build dependency
 # on setuptools.
@@ -504,7 +531,7 @@ build-constraint-dependencies = []
 
 # Default value: []
 # Type: list[list[dict]]
-conflicts = []
+# conflicts = []
 # Example usage:
 # Require that `package[extra1]` and `package[extra2]` are resolved
 # in different forks so that they cannot conflict with one another.
@@ -519,7 +546,7 @@ conflicts = []
 
 # Default value: []
 # Type: list[str]
-constraint-dependencies = []
+# constraint-dependencies = []
 # Example usage:
 # Ensure that the grpcio version is always less than 1.65, if it's requested by a
 # direct or transitive dependency.
@@ -529,7 +556,7 @@ constraint-dependencies = []
 
 # Default value: ["dev"]
 # Type: str | list[str]
-default-groups = ["dev"]
+# default-groups = ["dev"]
 # Example usage:
 # default-groups = ["docs"]
 
@@ -537,7 +564,7 @@ default-groups = ["dev"]
 
 # Default value: []
 # Type: list[str]
-dev-dependencies = []
+# dev-dependencies = []
 # Example usage:
 # dev-dependencies = ["ruff==0.5.0"]
 
@@ -545,7 +572,7 @@ dev-dependencies = []
 
 # Default value: []
 # Type: str | list[str]
-environments = []
+# environments = []
 # Example usage:
 # Resolve for macOS, but not for Linux or Windows.
 # environments = ["sys_platform == 'darwin'"]
@@ -554,7 +581,7 @@ environments = []
 
 # Default value: []
 # Type: list[str]
-exclude-dependencies = []
+# exclude-dependencies = []
 # Example usage:
 # Exclude Werkzeug from being installed, even if transitive dependencies request it.
 # exclude-dependencies = ["werkzeug"]
@@ -563,7 +590,7 @@ exclude-dependencies = []
 
 # Default value: true
 # Type: bool
-managed = true
+# managed = true
 # Example usage:
 # managed = false
 
@@ -571,7 +598,7 @@ managed = true
 
 # Default value: []
 # Type: list[str]
-override-dependencies = []
+# override-dependencies = []
 # Example usage:
 # Always install Werkzeug 2.3.0, regardless of whether transitive dependencies request
 # a different version.
@@ -581,7 +608,7 @@ override-dependencies = []
 
 # Default value: true
 # Type: bool
-package = true
+# package = true
 # Example usage:
 # package = false
 
@@ -589,7 +616,7 @@ package = true
 
 # Default value: []
 # Type: str | list[str]
-required-environments = []
+# required-environments = []
 # Example usage:
 # Require that the package is available for macOS ARM and x86 (Intel).
 # required-environments = [
@@ -605,7 +632,7 @@ required-environments = []
 # "major": Allow the same major version, similar to the semver caret, e.g., >=1.2.3, <2.0.0
 # "minor": Allow the same minor version, similar to the semver tilde, e.g., >=1.2.3, <1.3.0
 # "exact": Pin the exact version, e.g., ==1.2.3
-add-bounds = "lower"
+# add-bounds = "lower"
 # Example usage:
 # add-bounds = "major"
 
@@ -613,7 +640,7 @@ add-bounds = "lower"
 
 # Default value: []
 # Type: list[str]
-allow-insecure-host = []
+# allow-insecure-host = []
 # Example usage:
 # allow-insecure-host = ["localhost:8080"]
 
@@ -621,7 +648,7 @@ allow-insecure-host = []
 
 # Default value: None
 # Type: str
-cache-dir = ""
+# cache-dir = ""
 # Example usage:
 # cache-dir = "./.uv_cache"
 
@@ -629,7 +656,7 @@ cache-dir = ""
 
 # Default value: [{ file = "pyproject.toml" }, { file = "setup.py" }, { file = "setup.cfg" }]
 # Type: list[dict]
-cache-keys = [{ file = "pyproject.toml" }, { file = "setup.py" }, { file = "setup.cfg" }]
+# cache-keys = [{ file = "pyproject.toml" }, { file = "setup.py" }, { file = "setup.cfg" }]
 # Example usage:
 # cache-keys = [{ file = "pyproject.toml" }, { file = "requirements.txt" }, { git = { commit = true } }]
 
@@ -637,7 +664,7 @@ cache-keys = [{ file = "pyproject.toml" }, { file = "setup.py" }, { file = "setu
 
 # Default value: None
 # Type: str
-#check-url = ""
+# check-url = ""
 # Example usage:
 # check-url = "https://test.pypi.org/simple"
 
@@ -645,7 +672,7 @@ cache-keys = [{ file = "pyproject.toml" }, { file = "setup.py" }, { file = "setu
 
 # Default value: None
 # Type: int
-#concurrent-builds = 0
+# concurrent-builds = 0
 # Example usage:
 # concurrent-builds = 4
 
@@ -661,7 +688,7 @@ concurrent-downloads = 50
 
 # Default value: None
 # Type: int
-#concurrent-installs = 0
+# concurrent-installs = 0
 # Example usage:
 # concurrent-installs = 4
 
@@ -669,7 +696,7 @@ concurrent-downloads = 50
 
 # Default value: {}
 # Type: dict
-config-settings = {}
+# config-settings = {}
 # Example usage:
 # config-settings = { editable_mode = "compat" }
 
@@ -677,7 +704,7 @@ config-settings = {}
 
 # Default value: {}
 # Type: dict
-config-settings-package = {}
+# config-settings-package = {}
 # Example usage:
 # config-settings-package = { numpy = { editable_mode = "compat" } }
 
@@ -685,7 +712,7 @@ config-settings-package = {}
 
 # Default value: []
 # Type: list[dict]
-dependency-metadata = []
+# dependency-metadata = []
 # Example usage:
 # dependency-metadata = [
 #     { name = "flask", version = "1.0.0", requires-dist = ["werkzeug"], requires-python = ">=3.6" },
@@ -695,7 +722,7 @@ dependency-metadata = []
 
 # Default value: None
 # Type: str
-#exclude-newer = ""
+# exclude-newer = ""
 # Example usage:
 # exclude-newer = "2006-12-02T02:07:43Z"
 
@@ -703,7 +730,7 @@ dependency-metadata = []
 
 # Default value: None
 # Type: dict
-exclude-newer-package = {}
+# exclude-newer-package = {}
 # Example usage:
 # exclude-newer-package = { tqdm = "2022-04-04T00:00:00Z" }
 
@@ -711,7 +738,7 @@ exclude-newer-package = {}
 
 # Default value: []
 # Type: dict
-extra-build-dependencies = {}
+# extra-build-dependencies = {}
 # Example usage:
 # extra-build-dependencies = { pytest = ["setuptools"] }
 
@@ -719,7 +746,7 @@ extra-build-dependencies = {}
 
 # Default value: {}
 # Type: dict[str, dict[str, str]]
-extra-build-variables = {}
+# extra-build-variables = {}
 # Example usage:
 # extra-build-variables = { flash-attn = { FLASH_ATTENTION_SKIP_CUDA_BUILD = "TRUE" } }
 
@@ -728,7 +755,7 @@ extra-build-variables = {}
 
 # Default value: []
 # Type: list[str]
-extra-index-url = []
+# extra-index-url = []
 # Example usage:
 # extra-index-url = ["https://download.pytorch.org/whl/cpu"]
 
@@ -736,7 +763,7 @@ extra-index-url = []
 
 # Default value: []
 # Type: list[str]
-find-links = []
+# find-links = []
 # Example usage:
 # find-links = ["https://download.pytorch.org/whl/torch_stable.html"]
 
@@ -746,7 +773,7 @@ find-links = []
 # Possible values:
 # "fewest": Optimize for selecting the fewest number of versions for each package. Older versions may be preferred if they are compatible with a wider range of supported Python versions or platforms
 # "requires-python": Optimize for selecting latest supported version of each package, for each supported Python version
-fork-strategy = "requires-python"
+# fork-strategy = "requires-python"
 # Example usage:
 # fork-strategy = "fewest"
 
@@ -757,7 +784,7 @@ fork-strategy = "requires-python"
 # "first-index": Only use results from the first index that returns a match for a given package name
 # "unsafe-first-match": Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next
 # "unsafe-best-match": Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index
-index-strategy = "first-index"
+# index-strategy = "first-index"
 # Example usage:
 # index-strategy = "unsafe-best-match"
 
@@ -766,7 +793,7 @@ index-strategy = "first-index"
 
 # Default value: "https://pypi.org/simple"
 # Type: str
-index-url = "https://pypi.org/simple"
+# index-url = "https://pypi.org/simple"
 # Example usage:
 # index-url = "https://test.pypi.org/simple"
 
@@ -774,7 +801,7 @@ index-url = "https://pypi.org/simple"
 
 # Default value: "disabled"
 # Type: str
-keyring-provider = "disabled"
+# keyring-provider = "disabled"
 # Example usage:
 # keyring-provider = "subprocess"
 
@@ -786,7 +813,7 @@ keyring-provider = "disabled"
 # "copy": Copy packages from the wheel into the site-packages directory
 # "hardlink": Hard link packages from the wheel into the site-packages directory
 # "symlink": Symbolically link packages from the wheel into the site-packages directory
-link-mode = "hardlink"
+# link-mode = "hardlink"
 # Example usage:
 # link-mode = "copy"
 
@@ -794,7 +821,7 @@ link-mode = "hardlink"
 
 # Default value: false
 # Type: bool
-native-tls = false
+# native-tls = false
 # Example usage:
 # native-tls = true
 
@@ -802,7 +829,7 @@ native-tls = false
 
 # Default value: false
 # Type: bool
-no-binary = false
+# no-binary = false
 # Example usage:
 # no-binary = true
 
@@ -810,7 +837,7 @@ no-binary = false
 
 # Default value: []
 # Type: list[str]
-no-binary-package = []
+# no-binary-package = []
 # Example usage:
 # no-binary-package = ["ruff"]
 
@@ -818,7 +845,7 @@ no-binary-package = []
 
 # Default value: false
 # Type: bool
-no-build = false
+# no-build = false
 # Example usage:
 # no-build = true
 
@@ -826,7 +853,7 @@ no-build = false
 
 # Default value: false
 # Type: bool
-no-build-isolation = false
+# no-build-isolation = false
 # Example usage:
 # no-build-isolation = true
 
@@ -834,7 +861,7 @@ no-build-isolation = false
 
 # Default value: []
 # Type: list[str]
-no-build-isolation-package = []
+# no-build-isolation-package = []
 # Example usage:
 # no-build-isolation-package = ["package1", "package2"]
 
@@ -842,7 +869,7 @@ no-build-isolation-package = []
 
 # Default value: []
 # Type: list[str]
-no-build-package = []
+# no-build-package = []
 # Example usage:
 # no-build-package = ["ruff"]
 
@@ -850,7 +877,7 @@ no-build-package = []
 
 # Default value: false
 # Type: bool
-no-cache = false
+# no-cache = false
 # Example usage:
 # no-cache = true
 
@@ -858,7 +885,7 @@ no-cache = false
 
 # Default value: false
 # Type: bool
-no-index = false
+# no-index = false
 # Example usage:
 # no-index = true
 
@@ -866,7 +893,7 @@ no-index = false
 
 # Default value: false
 # Type: bool
-no-sources = false
+# no-sources = false
 # Example usage:
 # no-sources = true
 
@@ -874,7 +901,7 @@ no-sources = false
 
 # Default value: false
 # Type: bool
-offline = false
+# offline = false
 # Example usage:
 # offline = true
 
@@ -887,7 +914,7 @@ offline = false
 # "if-necessary": Allow pre-release versions if all versions of a package are pre-release
 # "explicit": Allow pre-release versions for first-party packages with explicit pre-release markers in their version requirements
 # "if-necessary-or-explicit": Allow pre-release versions if all versions of a package are pre-release, or if the package has an explicit pre-release marker in its version requirements
-prerelease = "if-necessary-or-explicit"
+# prerelease = "if-necessary-or-explicit"
 # Example usage:
 # prerelease = "allow"
 
@@ -895,7 +922,7 @@ prerelease = "if-necessary-or-explicit"
 
 # Default value: false
 # Type: bool
-preview = false
+# preview = false
 # Example usage:
 # preview = true
 
@@ -903,7 +930,7 @@ preview = false
 
 # Default value: "https://upload.pypi.org/legacy/"
 # Type: str
-publish-url = "https://upload.pypi.org/legacy/"
+# publish-url = "https://upload.pypi.org/legacy/"
 # Example usage:
 # publish-url = "https://test.pypi.org/legacy/"
 
@@ -911,7 +938,7 @@ publish-url = "https://upload.pypi.org/legacy/"
 
 # Default value: None
 # Type: str
-pypy-install-mirror = ""
+# pypy-install-mirror = ""
 # Example usage:
 # pypy-install-mirror = "https://downloads.python.org/pypy"
 
@@ -922,7 +949,7 @@ pypy-install-mirror = ""
 # "automatic": Automatically download managed Python installations when needed
 # "manual": Do not automatically download managed Python installations; require explicit installation
 # "never": Do not ever allow Python downloads
-python-downloads = "automatic"
+# python-downloads = "automatic"
 # Example usage:
 # python-downloads = "manual"
 
@@ -930,7 +957,7 @@ python-downloads = "automatic"
 
 # Default value: None
 # Type: str
-python-downloads-json-url = ""
+# python-downloads-json-url = ""
 # Example usage:
 # python-downloads-json-url = "/etc/uv/python-downloads.json"
 
@@ -938,7 +965,7 @@ python-downloads-json-url = ""
 
 # Default value: None
 # Type: str
-python-install-mirror = ""
+# python-install-mirror = ""
 # Example usage:
 # python-install-mirror = "https://github.com/astral-sh/python-build-standalone/releases/download"
 
@@ -950,7 +977,7 @@ python-install-mirror = ""
 # "managed": Prefer managed Python installations over system Python installations
 # "system": Prefer system Python installations over managed Python installations
 # "only-system": Only use system Python installations; never use managed Python installations
-python-preference = "managed"
+# python-preference = "managed"
 # Example usage:
 # python-preference = "managed"
 
@@ -958,7 +985,7 @@ python-preference = "managed"
 
 # Default value: false
 # Type: bool
-reinstall = false
+# reinstall = false
 # Example usage:
 # reinstall = true
 
@@ -966,7 +993,7 @@ reinstall = false
 
 # Default value: []
 # Type: list[str]
-reinstall-package = []
+# reinstall-package = []
 # Example usage:
 # reinstall-package = ["ruff"]
 
@@ -974,7 +1001,7 @@ reinstall-package = []
 
 # Default value: null
 # Type: str
-required-version = ""
+# required-version = ""
 # Example usage:
 # required-version = ">=0.5.0"
 
@@ -985,7 +1012,7 @@ required-version = ""
 # "highest": Resolve the highest compatible version of each package
 # "lowest": Resolve the lowest compatible version of each package
 # "lowest-direct": Resolve the lowest compatible version of any direct dependencies, and the highest compatible version of any transitive dependencies
-resolution = "highest"
+# resolution = "highest"
 # Example usage:
 # resolution = "lowest-direct"
 
@@ -993,7 +1020,7 @@ resolution = "highest"
 
 # Default value: null
 # Type: str
-#torch-backend = ""
+# torch-backend = ""
 # Example usage:
 # torch-backend = "auto"
 
@@ -1001,7 +1028,7 @@ resolution = "highest"
 
 # Default value: automatic
 # Type: str
-trusted-publishing = "automatic"
+# trusted-publishing = "automatic"
 # Example usage:
 # trusted-publishing = "always"
 
@@ -1009,7 +1036,7 @@ trusted-publishing = "automatic"
 
 # Default value: false
 # Type: bool
-upgrade = false
+# upgrade = false
 # Example usage:
 # upgrade = true
 
@@ -1017,7 +1044,7 @@ upgrade = false
 
 # Default value: []
 # Type: list[str]
-upgrade-package = []
+# upgrade-package = []
 # Example usage:
 # upgrade-package = ["ruff"]
 
@@ -1027,7 +1054,7 @@ upgrade-package = []
 
 # Default value: false
 # Type: bool
-all-extras = false
+# all-extras = false
 # Example usage:
 # all-extras = true
 
@@ -1035,7 +1062,7 @@ all-extras = false
 
 # Default value: false
 # Type: bool
-allow-empty-requirements = false
+# allow-empty-requirements = false
 # Example usage:
 # allow-empty-requirements = true
 
@@ -1045,7 +1072,7 @@ allow-empty-requirements = false
 # Possible values:
 # "line": Render the annotations on a single, comma-separated line
 # "split": Render each annotation on its own line
-annotation-style = "split"
+# annotation-style = "split"
 # Example usage:
 # annotation-style = "line"
 
@@ -1053,7 +1080,7 @@ annotation-style = "split"
 
 # Default value: false
 # Type: bool
-break-system-packages = false
+# break-system-packages = false
 # Example usage:
 # break-system-packages = true
 
@@ -1061,7 +1088,7 @@ break-system-packages = false
 
 # Default value: false
 # Type: bool
-compile-bytecode = false
+# compile-bytecode = false
 # Example usage:
 # compile-bytecode = true
 
@@ -1069,7 +1096,7 @@ compile-bytecode = false
 
 # Default value: {}
 # Type: dict
-config-settings = {}
+# config-settings = {}
 # Example usage:
 # config-settings = { editable_mode = "compat" }
 
@@ -1077,7 +1104,7 @@ config-settings = {}
 
 # Default value: {}
 # Type: dict
-config-settings-package = {}
+# config-settings-package = {}
 # Example usage:
 # config-settings-package = { numpy = { editable_mode = "compat" } }
 
@@ -1085,7 +1112,7 @@ config-settings-package = {}
 
 # Default value: None
 # Type: str
-custom-compile-command = ""
+# custom-compile-command = ""
 # Example usage:
 # custom-compile-command = "./custom-uv-compile.sh"
 
@@ -1098,7 +1125,7 @@ custom-compile-command = ""
 # (Optional) provides-extra: The extras provided by the package.
 # Default value: []
 # Type: list[dict]
-dependency-metadata = []
+# dependency-metadata = []
 # Example usage:
 # dependency-metadata = [
 #     { name = "flask", version = "1.0.0", requires-dist = ["werkzeug"], requires-python = ">=3.6" },
@@ -1108,7 +1135,7 @@ dependency-metadata = []
 
 # Default value: false
 # Type: bool
-emit-build-options = false
+# emit-build-options = false
 # Example usage:
 # emit-build-options = true
 
@@ -1116,7 +1143,7 @@ emit-build-options = false
 
 # Default value: false
 # Type: bool
-emit-find-links = false
+# emit-find-links = false
 # Example usage:
 # emit-find-links = true
 
@@ -1124,7 +1151,7 @@ emit-find-links = false
 
 # Default value: false
 # Type: bool
-emit-index-annotation = false
+# emit-index-annotation = false
 # Example usage:
 # emit-index-annotation = true
 
@@ -1132,7 +1159,7 @@ emit-index-annotation = false
 
 # Default value: false
 # Type: bool
-emit-index-url = false
+# emit-index-url = false
 # Example usage:
 # emit-index-url = true
 
@@ -1140,7 +1167,7 @@ emit-index-url = false
 
 # Default value: false
 # Type: bool
-emit-marker-expression = false
+# emit-marker-expression = false
 # Example usage:
 # emit-marker-expression = true
 
@@ -1148,7 +1175,7 @@ emit-marker-expression = false
 
 # Default value: None
 # Type: str
-#exclude-newer =  ""
+# exclude-newer =  ""
 # Example usage:
 # exclude-newer = "2006-12-02T02:07:43Z"
 
@@ -1156,7 +1183,7 @@ emit-marker-expression = false
 
 # Default value: None
 # Type: dict
-exclude-newer-package =  {}
+# exclude-newer-package =  {}
 # Example usage:
 # exclude-newer-package = { tqdm = "2022-04-04T00:00:00Z" }
 
@@ -1164,7 +1191,7 @@ exclude-newer-package =  {}
 
 # Default value: []
 # Type: list[str]
-extra = []
+# extra = []
 # Example usage:
 # extra = ["dev", "docs"]
 
@@ -1172,7 +1199,7 @@ extra = []
 
 # Default value: []
 # Type: dict
-extra-build-dependencies = {}
+# extra-build-dependencies = {}
 # Example usage:
 # extra-build-dependencies = { pytest = ["setuptools"] }
 
@@ -1180,7 +1207,7 @@ extra-build-dependencies = {}
 
 # Default value: {}
 # Type: dict[str, dict[str, str]]
-extra-build-variables = {}
+# extra-build-variables = {}
 # Example usage:
 # extra-build-variables = { flash-attn = { FLASH_ATTENTION_SKIP_CUDA_BUILD = "TRUE" } }
 
@@ -1188,7 +1215,7 @@ extra-build-variables = {}
 
 # Default value: []
 # Type: list[str]
-extra-index-url = []
+# extra-index-url = []
 # Example usage:
 # extra-index-url = ["https://download.pytorch.org/whl/cpu"]
 
@@ -1196,7 +1223,7 @@ extra-index-url = []
 
 # Default value: []
 # Type: list[str]
-find-links = []
+# find-links = []
 # Example usage:
 # find-links = ["https://download.pytorch.org/whl/torch_stable.html"]
 
@@ -1206,7 +1233,7 @@ find-links = []
 # Possible values:
 # "fewest": Optimize for selecting the fewest number of versions for each package. Older versions may be preferred if they are compatible with a wider range of supported Python versions or platforms
 # "requires-python": Optimize for selecting latest supported version of each package, for each supported Python version
-fork-strategy = "requires-python"
+# fork-strategy = "requires-python"
 # Example usage:
 # fork-strategy = "fewest"
 
@@ -1214,7 +1241,7 @@ fork-strategy = "requires-python"
 
 # Default value: false
 # Type: bool
-generate-hashes = false
+# generate-hashes = false
 # Example usage:
 # generate-hashes = true
 
@@ -1222,7 +1249,7 @@ generate-hashes = false
 
 # Default value: None
 # Type: list[str]
-group = []
+# group = []
 # Example usage:
 # group = ["dev", "docs"]
 
@@ -1233,7 +1260,7 @@ group = []
 # "first-index": Only use results from the first index that returns a match for a given package name
 # "unsafe-first-match": Search for every package name across all indexes, exhausting the versions from the first index before moving on to the next
 # "unsafe-best-match": Search for every package name across all indexes, preferring the "best" version found. If a package version is in multiple indexes, only look at the entry for the first index
-index-strategy = "first-index"
+# index-strategy = "first-index"
 # Example usage:
 # index-strategy = "unsafe-best-match"
 
@@ -1241,7 +1268,7 @@ index-strategy = "first-index"
 
 # Default value: "https://pypi.org/simple"
 # Type: str
-index-url = "https://pypi.org/simple"
+# index-url = "https://pypi.org/simple"
 # Example usage:
 # index-url = "https://test.pypi.org/simple"
 
@@ -1249,7 +1276,7 @@ index-url = "https://pypi.org/simple"
 
 # Default value: disabled
 # Type: str
-#keyring-provider = ""
+# keyring-provider = ""
 # Example usage:
 # keyring-provider = "subprocess"
 
@@ -1261,7 +1288,7 @@ index-url = "https://pypi.org/simple"
 # "copy": Copy packages from the wheel into the site-packages directory
 # "hardlink": Hard link packages from the wheel into the site-packages directory
 # "symlink": Symbolically link packages from the wheel into the site-packages directory
-link-mode = "hardlink"
+# link-mode = "hardlink"
 # Example usage:
 # link-mode = "copy"
 
@@ -1269,7 +1296,7 @@ link-mode = "hardlink"
 
 # Default value: false
 # Type: bool
-no-annotate = false
+# no-annotate = false
 # Example usage:
 # no-annotate = true
 
@@ -1277,7 +1304,7 @@ no-annotate = false
 
 # Default value: []
 # Type: list[str]
-no-binary = []
+# no-binary = []
 # Example usage:
 # no-binary = ["ruff"]
 
@@ -1285,7 +1312,7 @@ no-binary = []
 
 # Default value: false
 # Type: bool
-no-build = false
+# no-build = false
 # Example usage:
 # no-build = true
 
@@ -1293,7 +1320,7 @@ no-build = false
 
 # Default value: false
 # Type: bool
-no-build-isolation = false
+# no-build-isolation = false
 # Example usage:
 # no-build-isolation = true
 
@@ -1301,7 +1328,7 @@ no-build-isolation = false
 
 # Default value: []
 # Type: list[str]
-no-build-isolation-package = []
+# no-build-isolation-package = []
 # Example usage:
 # no-build-isolation-package = ["package1", "package2"]
 
@@ -1309,7 +1336,7 @@ no-build-isolation-package = []
 
 # Default value: false
 # Type: bool
-no-deps = false
+# no-deps = false
 # Example usage:
 # no-deps = true
 
@@ -1317,7 +1344,7 @@ no-deps = false
 
 # Default value: []
 # Type: list[str]
-no-emit-package = []
+# no-emit-package = []
 # Example usage:
 # no-emit-package = ["ruff"]
 
@@ -1325,7 +1352,7 @@ no-emit-package = []
 
 # Default value: []
 # Type: list[str]
-no-extra = []
+# no-extra = []
 # Example usage:
 # [tool.uv.pip]
 # all-extras = true
@@ -1335,7 +1362,7 @@ no-extra = []
 
 # Default value: false
 # Type: bool
-no-header = false
+# no-header = false
 # Example usage:
 # no-header = true
 
@@ -1343,7 +1370,7 @@ no-header = false
 
 # Default value: false
 # Type: bool
-no-index = false
+# no-index = false
 # Example usage:
 # no-index = true
 
@@ -1351,7 +1378,7 @@ no-index = false
 
 # Default value: false
 # Type: bool
-no-sources = false
+# no-sources = false
 # Example usage:
 # no-sources = true
 
@@ -1359,7 +1386,7 @@ no-sources = false
 
 # Default value: false
 # Type: bool
-no-strip-extras = false
+# no-strip-extras = false
 # Example usage:
 # no-strip-extras = true
 
@@ -1367,7 +1394,7 @@ no-strip-extras = false
 
 # Default value: false
 # Type: bool
-no-strip-markers = false
+# no-strip-markers = false
 # Example usage:
 # no-strip-markers = true
 
@@ -1375,6 +1402,7 @@ no-strip-markers = false
 
 # Default value: []
 # Type: list[str]
+# only-binary = ["ruff"]
 # Example usage:
 # only-binary = ["ruff"]
 
@@ -1382,7 +1410,7 @@ no-strip-markers = false
 
 # Default value: None
 # Type: str
-output-file = ""
+# output-file = ""
 # Example usage:
 # output-file = "requirements.txt"
 
@@ -1390,7 +1418,7 @@ output-file = ""
 
 # Default value: None
 # Type: str
-prefix = ""
+# prefix = ""
 # Example usage:
 # prefix = "./prefix"
 
@@ -1403,7 +1431,7 @@ prefix = ""
 # "if-necessary": Allow pre-release versions if all versions of a package are pre-release
 # "explicit": Allow pre-release versions for first-party packages with explicit pre-release markers in their version requirements
 # "if-necessary-or-explicit": Allow pre-release versions if all versions of a package are pre-release, or if the package has an explicit pre-release marker in its version requirements
-prerelease = "if-necessary-or-explicit"
+# prerelease = "if-necessary-or-explicit"
 # Example usage:
 # prerelease = "allow"
 
@@ -1411,7 +1439,7 @@ prerelease = "if-necessary-or-explicit"
 
 # Default value: None
 # Type: str
-python = ""
+# python = ""
 # Example usage:
 # python = "3.10"
 
@@ -1419,7 +1447,7 @@ python = ""
 
 # Default value: None
 # Type: str
-#python-platform = ""
+# python-platform = ""
 # Example usage:
 # python-platform = "x86_64-unknown-linux-gnu"
 
@@ -1427,7 +1455,7 @@ python = ""
 
 # Default value: None
 # Type: str
-python-version = "3.14"
+# python-version = "3.14"
 # Example usage:
 # python-version = "3.8"
 
@@ -1435,7 +1463,7 @@ python-version = "3.14"
 
 # Default value: false
 # Type: bool
-reinstall = false
+# reinstall = false
 # Example usage:
 # reinstall = true
 
@@ -1443,7 +1471,7 @@ reinstall = false
 
 # Default value: []
 # Type: list[str]
-reinstall-package = []
+# reinstall-package = []
 # Example usage:
 # reinstall-package = ["ruff"]
 
@@ -1451,7 +1479,7 @@ reinstall-package = []
 
 # Default value: false
 # Type: bool
-require-hashes = false
+# require-hashes = false
 # Example usage:
 # require-hashes = true
 
@@ -1462,7 +1490,7 @@ require-hashes = false
 # "highest": Resolve the highest compatible version of each package
 # "lowest": Resolve the lowest compatible version of each package
 # "lowest-direct": Resolve the lowest compatible version of any direct dependencies, and the highest compatible version of any transitive dependencies
-resolution = "highest"
+# resolution = "highest"
 # Example usage:
 # resolution = "lowest-direct"
 
@@ -1470,7 +1498,7 @@ resolution = "highest"
 
 # Default value: false
 # Type: bool
-strict = false
+# strict = false
 # Example usage:
 # strict = true
 
@@ -1478,7 +1506,7 @@ strict = false
 
 # Default value: false
 # Type: bool
-system = false
+# system = false
 # Example usage:
 # system = true
 
@@ -1486,7 +1514,7 @@ system = false
 
 # Default value: None
 # Type: str
-target = ""
+# target = ""
 # Example usage:
 # target = "./target"
 
@@ -1494,7 +1522,7 @@ target = ""
 
 # Default value: null
 # Type: str
-#torch-backend = ""
+# torch-backend = ""
 # Example usage:
 # torch-backend = "auto"
 
@@ -1502,7 +1530,7 @@ target = ""
 
 # Default value: false
 # Type: bool
-universal = false
+# universal = false
 # Example usage:
 # universal = true
 
@@ -1510,7 +1538,7 @@ universal = false
 
 # Default value: false
 # Type: bool
-upgrade = false
+# upgrade = false
 # Example usage:
 # upgrade = true
 
@@ -1518,7 +1546,7 @@ upgrade = false
 
 # Default value: []
 # Type: list[str]
-upgrade-package = []
+# upgrade-package = []
 # Example usage:
 # upgrade-package = ["ruff"]
 
@@ -1526,7 +1554,6 @@ upgrade-package = []
 
 # Default value: true
 # Type: bool
-verify-hashes = true
+# verify-hashes = true
 # Example usage:
 # verify-hashes = true
-
